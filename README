@@ -1,0 +1,48 @@
+###############################################################################
+  LivestatusSlave 1.0                                                         #
+###############################################################################
+# 2010-03-27 Lars Michelsen <lm@larsmichelsen.com>
+#
+# LivestatusSlave is a wrapper script to make the Livestatus unix socket
+# available via HTTP. This could be usefull when querying livestatus via
+# AJAX HTTP Request e.g. from JavaScript.
+#
+# MKLivestatus is a Nagios Event Broker (NEB) Module which can be used to
+# extend the core of Nagios. The MKLivestatus module provides access to the
+# live status information kept in the running Nagios process. It serves a
+# unix socket for data exchange with external scripts/addons.
+# MKLivestatus homepage is <http://mathias-kettner.de/checkmk_livestatus.html>
+#
+###############################################################################
+  The LivestatusSlave is at home:                                             #
+    <http://nagios.larsmichelsen.com/livestatusslave/>                        #
+  Report Bugs:                                                                #
+    <http://www.nagios-portal.org/wbb/index.php>                              #
+###############################################################################
+# REQUIREMENTS
+###############################################################################
+  LivestatusSlave needs a webserver which supports at least PHP 5. The PHP    #
+  needs suport for json and socket functions. You might need to install       #
+  additional packages to get those modules.                                   #
+                                                                              #
+  And you also need a running Nagios with a loaded MKLivestatus NEB module.   #
+###############################################################################
+# INSTALL
+#
+# Just drop the live.php somewhere on your system where it is reachable via
+# a webserver which supports PHP.
+#
+# Then you need to edit the $conf Array in live.php to point to your
+# Livestatus socket path.
+###############################################################################
+  Have fun and keep the spirit of open source!                                #
+                            ###################################################
+                            #
+                           #
+                            #
+                             #
+                            #
+                           #
+                          #
+                           #
+                            #
