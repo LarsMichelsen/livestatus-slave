@@ -212,7 +212,7 @@ function connectSocket() {
 	if($conf['socketType'] === 'unix') {
 		$result = socket_connect($LIVE, $conf['socketPath']);
 	} elseif($conf['socketType'] === 'tcp') {
-		$result = socket_connect($LIVE, $conf['socketAddres'], $conf['socketPort']);
+		$result = socket_connect($LIVE, $conf['socketAddress'], $conf['socketPort']);
 	}
 	
 	if($result == false) {
