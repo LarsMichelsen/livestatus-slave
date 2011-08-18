@@ -4,7 +4,7 @@
  * live.php - Standalone PHP script to serve the unix socket of the
  *            MKLivestatus NEB module as webservice.
  *
- * Copyright (c) 2010 Lars Michelsen <lm@larsmichelsen.com>
+ * Copyright (c) 2010,2011 Lars Michelsen <lm@larsmichelsen.com>
  *
  * License:
  *
@@ -23,7 +23,7 @@
  *
  * @AUTHOR   Lars Michelsen <lm@larsmichelsen.com>
  * @HOME     http://nagios.larsmichelsen.com/livestatusslave/
- * @VERSION  1.0
+ * @VERSION  1.1
  *****************************************************************************/
 
 /**
@@ -38,7 +38,11 @@ $conf = Array(
 	'socketPath'       => '/var/run/nagios/rw/live',
 	// When using a tcp socket the address and port needs to be set
 	'socketAddress'    => '',
-	'socketPort'       => ''
+	'socketPort'       => '',
+        // Modify the default allowed query type match regex
+        'queryTypes'       => '(GET|LOGROTATE|COMMAND)',
+        // Modify the matchig regex for the allowed tables
+        'queryTables'      => '([a-z]+)',
 );
 
 
@@ -51,9 +55,6 @@ if(file_exists('./live_config.php'))
 	include('./live_config.php');
 
 class LiveException extends Exception {}
-
-define('QUERY_TYPES', '(GET|LOGROTATE|COMMAND)');
-define('TABLES', '([a-z]+)');
 
 $LIVE = null;
 
@@ -97,7 +98,7 @@ function getQuery() {
 		$query = str_replace('\\\\n', "\n", $_REQUEST['q']);
 
 		// Validate the query
-		if(!preg_match("/^".QUERY_TYPES."\s".TABLES."\n/", $query))
+		if(!preg_match("/^".$conf['queryTypes']."\s".$conf['queryTables']."\n/", $query))
 			throw new LiveException('Invalid livestatus query.');
 			
 
@@ -107,6 +108,17 @@ function getQuery() {
 
 function response($head, $body) {
 	echo json_encode(Array($head, $body));
+}
+
+function response($head, $body) {
+    header('Content-type: application/json');
+    $json_result = json_encode(Array($head, $body));
+
+    // Support jsonp when requested by client (see http://en.wikipedia.org/wiki/JSONP).
+    if(isset($_REQUEST['callback']) && $_REQUEST['callback'] != '')
+        $json_result = $_REQUEST['callback']."(".$json_result.")";
+
+    echo $json_result;
 }
 
 function verifyConfig() {

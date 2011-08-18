@@ -1,0 +1,7 @@
+
+1.1 2011-08-18
+
+* FIX: Fixed config typo for TCP sockets
+* Query types and tables are now configurable using the config option
+  queryTypes and queryTables
+* Added optional support for JSONP requests
