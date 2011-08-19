@@ -39,10 +39,10 @@ $conf = Array(
     // When using a tcp socket the address and port needs to be set
     'socketAddress'    => '',
     'socketPort'       => '',
-        // Modify the default allowed query type match regex
-        'queryTypes'       => '(GET|LOGROTATE|COMMAND)',
-        // Modify the matchig regex for the allowed tables
-        'queryTables'      => '([a-z]+)',
+    // Modify the default allowed query type match regex
+    'queryTypes'       => '(GET|LOGROTATE|COMMAND)',
+    // Modify the matchig regex for the allowed tables
+    'queryTables'      => '([a-z]+)',
 );
 
 
@@ -91,23 +91,25 @@ function livestatusSlave() {
     }
 }
 
-function getQuery() {
-    if(!isset($_REQUEST['q']) || $_REQUEST['q'] == '')
-        throw new LiveException('No query given in "q" Attribute.');
-    else {
-        $query = str_replace('\\\\n', "\n", $_REQUEST['q']);
-
-        // Validate the query
-        if(!preg_match("/^".$conf['queryTypes']."\s".$conf['queryTables']."\n/", $query))
-            throw new LiveException('Invalid livestatus query.');
-            
-
-        return $query;
-    }
+function readQuery() {
+    global $argv;
+    if(isset($_REQUEST['q']) && $_REQUEST['q'] !== '')
+        return str_replace('\\\\n', "\n", $_REQUEST['q']);
+    elseif(isset($argv[1]) && $argv[1] !== '')
+        return str_replace('\\n', "\n", $argv[1]);
+    else
+        throw new LiveException('No query given in "q" Attribute nor argv[0].');
 }
 
-function response($head, $body) {
-    echo json_encode(Array($head, $body));
+function getQuery() {
+    global $conf;
+    $query = readQuery();
+
+    // Validate the query
+    if(!preg_match("/^".$conf['queryTypes']."\s".$conf['queryTables']."\n/", $query))
+        throw new LiveException('Invalid livestatus query.');
+
+    return $query;
 }
 
 function response($head, $body) {

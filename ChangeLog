@@ -5,3 +5,5 @@
 * Query types and tables are now configurable using the config option
   queryTypes and queryTables
 * Added optional support for JSONP requests
+* It is now possible to run live.php from the command line as follows:
+  live.php "GET services\n"
