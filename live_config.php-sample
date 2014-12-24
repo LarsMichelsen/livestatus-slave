@@ -1,0 +1,20 @@
+<?php
+
+// The socket type can be 'unix' for connecting with the unix socket or 'tcp'
+// to connect to a tcp socket.
+//$conf['socketType'] = 'unix';
+
+// When using a unix socket the path to the socket needs to be set
+//$conf['socketPath'] = '/var/run/nagios/rw/live';
+
+// When using a tcp socket the address and port needs to be set
+//$conf['socketAddress' = '';
+//$conf['socketPort']   = '';
+
+// Modify the default allowed query type match regex
+//$conf['queryTypes'] = '(GET|LOGROTATE|COMMAND)';
+
+// Modify the matchig regex for the allowed tables
+//$conf['queryTables'] = '([a-z]+)';
+
+?>

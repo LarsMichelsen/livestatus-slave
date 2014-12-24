@@ -8,7 +8,6 @@ all: help
 
 help:
 	@echo "make dist     ---> Create an archive for releasing"
-	@echo "make publish  ---> Upload the release"
 
 clean:
 	rm -f $(NAME)-*.rpm $(NAME)-*.tar.gz *~
@@ -19,7 +18,3 @@ dist: clean
 	tar cf - --exclude=$(DISTNAME) --exclude=Makefile * | tar xf - -C $(DISTNAME)
 	tar cvzf $(PKG) --owner=root --group=root $(DISTNAME)
 	rm -rf $(DISTNAME)
-
-publish: 
-	scp $(PKG) larsmichelsen.com:/d/lm.com/htdocs/share/
-	@echo "URL: http://nagios.larsmichelsen.com/share/$(PKG)"
