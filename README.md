@@ -28,6 +28,55 @@ Then you can create the a configuration file in the same directory as the
 the file `live_conf.php-sample` from this repository and change it to fit
 your needs.
 
+# Example
+
+I placed the `live.php` in my `nagios/share` directory so it can be accessed
+via HTTP (my browser) now using this URL:
+
+```
+http://<my-nagios-server>/nagios/live.php
+```
+
+It is very easy to query the livestatus-slave. Simply access the `live.php`
+in your browser with the following URL:
+
+```
+http://<my-nagios-server>/nagios/live.php?q=GET hosts\nColumns: name state\nFilter: name = www.nagvis.org\n
+```
+
+This will result in the following response:
+
+```
+[[0,"OK"],[["www.nagvis.org",0]]]
+```
+
+More readable and with comments added:
+
+```
+[
+  // Header
+  [
+    // Response Code
+    0,
+    // Response Message
+    "OK"
+  ],
+  // Body
+  [["www.nagvis.org",0]]
+]
+```
+
+The response is in JSON format. It is an array where the first element is the 
+header which is an array itselfs and the second element is the response body
+which may be an array of elements.
+
+The response header is built of two elements. The first element is the response
+code, the second element is the description of the response, for example an
+error message.
+
+The response code is 0 on a successful query and different than 0 when a
+problem occured.
+
 # Bugs and Support
 
 I decided to use GitHub for managing project related communication, you
